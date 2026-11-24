@@ -109,6 +109,7 @@ def extract_chunk(chunk: Chunk, llm: LLMClient) -> ExtractionResult:
             response = llm.chat(
                 messages,
                 json_schema=EXTRACTION_SCHEMA,
+                max_tokens=4096,
             )
 
             payload = _validate_payload(json.loads(response.content))
