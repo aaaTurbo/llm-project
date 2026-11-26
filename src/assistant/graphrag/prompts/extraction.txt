@@ -1,0 +1,56 @@
+Ты извлекаешь сущности и отношения из документа сервисной службы.
+
+Доступные типы сущностей:
+ProductLine, Model, Component, Part, ErrorCode, Procedure, Supplier.
+
+Допустимые отношения и их направление:
+
+BELONGS_TO: Model -> ProductLine
+HAS_PART: Model -> Part
+IS_A: Part -> Component
+INDICATES: ErrorCode -> Component
+FIXED_BY: ErrorCode -> Procedure
+REPLACED_BY: Part -> Part
+SUPPLIED_BY: Part -> Supplier
+FAILED: Model -> Component
+
+ВАЖНО:
+    - Направление каждой связи должно строго соответствовать указанному.
+    - Не придумывай сущности и отношения.
+    - Используй только информацию, прямо подтверждённую текстом.
+    - Коды оборудования и деталей извлекай в каноническом виде.
+    - Названия используй из словаря, если они встречаются в тексте.
+    - Если связь не выражена в документе, не добавляй её.
+
+Пример:
+
+Текст:
+Деталь P-1042 (пусковое реле) снята с производства.
+Вместо неё устанавливается P-1042B.
+
+Результат:
+{
+  "entities": [
+    {"type": "Part", "name": "P-1042"},
+    {"type": "Part", "name": "P-1042B"},
+    {"type": "Component", "name": "пусковое реле"}
+  ],
+  "relations": [
+    {
+      "subject_type": "Part",
+      "subject": "P-1042",
+      "type": "REPLACED_BY",
+      "object_type": "Part",
+      "object": "P-1042B"
+    },
+    {
+      "subject_type": "Part",
+      "subject": "P-1042",
+      "type": "IS_A",
+      "object_type": "Component",
+      "object": "пусковое реле"
+    }
+  ]
+}
+
+Верни только результат в формате JSON.
