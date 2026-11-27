@@ -70,6 +70,28 @@ def _validate_payload(payload: object) -> dict:
     return payload
 
 
+def _normalize_relation_direction(
+    subject_type: str,
+    subject_name: str,
+    object_type: str,
+    object_name: str,
+    relation_type: str,
+) -> tuple[str, str, str, str] | None:
+    """Приводит направление связи к сигнатуре графа."""
+
+    expected = RELATION_SIGNATURES[relation_type]
+
+    actual = (subject_type, object_type)
+
+    if actual == expected:
+        return subject_type, subject_name, object_type, object_name
+
+    if actual == expected[::-1]:
+        return object_type, object_name, subject_type, subject_name
+
+    return None
+
+
 def extract_chunk(chunk: Chunk, llm: LLMClient) -> ExtractionResult:
     """Возвращает сущности и связи чанка строго по схеме графа.
 
@@ -198,6 +220,20 @@ def extract_chunk(chunk: Chunk, llm: LLMClient) -> ExtractionResult:
         elif (object_type, object_name) not in names_in_text:
             dropped += 1
             continue
+
+        normalized = _normalize_relation_direction(
+            subject_type,
+            subject_name,
+            object_type,
+            object_name,
+            item["type"],
+        )
+
+        if normalized is None:
+            dropped += 1
+            continue
+
+        subject_type, subject_name, object_type, object_name = normalized
 
         subject = Entity(subject_type, subject_name)
         obj = Entity(object_type, object_name)
