@@ -29,7 +29,8 @@ def detect_communities(graph: nx.DiGraph) -> list[Community]:
 
     groups = nx.community.louvain_communities(
         undirected,
-        weight="weight"
+        weight="weight",
+        seed = 42
     )
 
     ordered_groups = sorted(
