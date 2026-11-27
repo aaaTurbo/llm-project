@@ -26,28 +26,34 @@
   "5": {
     "mode": "local",
     "q": "Какая деталь заменяет P-3062?",
-    "a": "P-3062B",
+    "a": "P-3062 заменяется на P-3062B, которая сама заменяется на P-3062C. Актуальная деталь, которая заменяет P-3062 — P-3062C",
     "sources": "bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md"
   },
   "6": {
+    "mode": "global",
+    "q": "Какая деталь заменяет P-3062?",
+    "a": "Деталь P-3062 заменяется на P-3062B и P-3062C.",
+    "sources": " bulletin_SB-2025-02.md, bulletin_SB-2025-04.md, bulletin_SB-2025-06.md, bulletin_SB-2025-08.md, bulletin_SB-2025-09.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, manual_BZ-110.md, manual_BZ-120.md, manual_BZ-210.md, manual_BZ-220.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-105.md, procedure_SP-111.md, procedure_SP-112.md, procedure_SP-113.md, report_R-2025-001.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-009.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-026.md, report_R-2025-027.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-032.md, report_R-2025-035.md"
+  },
+  "7": {
     "mode": "global",
     "q": "Какие основные неисправности и узлы описаны в базе?",
     "a": "Основные неисправности и узлы, описанные в базе: - Ошибки E-11, E-12 — компрессор (узлы P-1010–P-3110), поставщик КомпрессорМаш, часть P-2110 заменяется на P-2110B, процедуры SP-101, SP-102. - Ошибки E-13 — вентилятор конденсатора (узлы P-1014–P-3114), поставщик «ВентПром», процедура SP-103, часть P-1046 заменяется на P-1046B.- Ошибки E-14, E-21 — датчики температуры (P-1018–P-3118) и терморегулирующие вентили (P-2058–P-3158), поставщики не указаны, части P-1118B, P-2054C заменяют предыдущие.- Ошибки E-15, E-19, E-24 — контроллер, блок освещения, поставщик АвтоматикаСевер, процедуры SP-106, SP-109, SP-114.- Ошибки E-16, E-17 — пусковое реле и реле давления, модели AR-210–AR-320 (линия «Арктика»), часть P-1042B заменяет пусковое реле, реле давления — поставщик ХолодКомплект, процедуры SP-104, SP-107.- Ошибки E-18, E-20 — вентилятор испарителя и нагреватель оттайки (узлы P-2054, P-2146, P-2154), модели BZ-110–BZ-220, процедуры SP-108, SP-110.- Ошибки E-22, E-23 — циркуляционный насос (P-3062–P-3062C) и реле протока (P-3066, P-3166), модели GS-410–GS-520 (линия Гольфстрим), поставщик ГидроТех, процедуры SP-112, SP-113. Все узлы и неисправности описаны с указанием кодов, моделей и процедур.",
     "sources": "Источники: bulletin_SB-2025-01.md, bulletin_SB-2025-02.md, bulletin_SB-2025-03.md, bulletin_SB-2025-04.md, bulletin_SB-2025-05.md, bulletin_SB-2025-06.md, bulletin_SB-2025-07.md, bulletin_SB-2025-08.md, bulletin_SB-2025-09.md, bulletin_SB-2025-10.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, manual_BZ-110.md, manual_BZ-120.md, manual_BZ-210.md, manual_BZ-220.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-101.md, procedure_SP-102.md, procedure_SP-103.md, procedure_SP-104.md, procedure_SP-105.md, procedure_SP-106.md, procedure_SP-107.md, procedure_SP-108.md, procedure_SP-109.md, procedure_SP-110.md, procedure_SP-111.md, procedure_SP-112.md, procedure_SP-113.md, procedure_SP-114.md, report_R-2025-001.md, report_R-2025-002.md, report_R-2025-003.md, report_R-2025-004.md, report_R-2025-005.md, report_R-2025-006.md, report_R-2025-007.md, report_R-2025-008.md, report_R-2025-009.md, report_R-2025-010.md, report_R-2025-011.md, report_R-2025-012.md, report_R-2025-013.md, report_R-2025-014.md, report_R-2025-015.md, report_R-2025-016.md, report_R-2025-017.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-020.md, report_R-2025-021.md, report_R-2025-022.md, report_R-2025-023.md, report_R-2025-024.md, report_R-2025-025.md, report_R-2025-026.md, report_R-2025-027.md, report_R-2025-028.md, report_R-2025-029.md, report_R-2025-030.md, report_R-2025-031.md, report_R-2025-032.md, report_R-2025-033.md, report_R-2025-034.md, report_R-2025-035.md, report_R-2025-036.md, report_R-2025-037.md, report_R-2025-038.md, report_R-2025-039.md, report_R-2025-040.md"
   },
-  "7": {
+  "8": {
     "mode": "local",
     "q": "Что известно об ошибке E-999?",
     "a": "В базе знаний не найдено.",
     "sources": "Источники: нет"
   },
-  "8": {
+  "9": {
     "mode": "global",
     "q": "Какая процедура устраняет ошибку E-17?",
     "a": "Процедура SP-104 устраняет ошибку E-17.",
     "sources": "Источники: bulletin_SB-2025-01.md, bulletin_SB-2025-02.md, bulletin_SB-2025-03.md, bulletin_SB-2025-04.md, bulletin_SB-2025-07.md, bulletin_SB-2025-08.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, manual_BZ-110.md, manual_BZ-120.md, manual_BZ-210.md, manual_BZ-220.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-104.md, procedure_SP-105.md, procedure_SP-107.md, procedure_SP-108.md, procedure_SP-110.md, procedure_SP-111.md, report_R-2025-001.md, report_R-2025-002.md, report_R-2025-003.md, report_R-2025-004.md, report_R-2025-005.md, report_R-2025-006.md, report_R-2025-008.md, report_R-2025-009.md, report_R-2025-010.md, report_R-2025-011.md, report_R-2025-012.md, report_R-2025-014.md, report_R-2025-016.md, report_R-2025-017.md, report_R-2025-020.md, report_R-2025-021.md, report_R-2025-022.md, report_R-2025-023.md, report_R-2025-024.md, report_R-2025-026.md, report_R-2025-027.md, report_R-2025-028.md, report_R-2025-030.md, report_R-2025-031.md, report_R-2025-032.md, report_R-2025-033.md, report_R-2025-034.md, report_R-2025-036.md, report_R-2025-037.md, report_R-2025-038.md, report_R-2025-039.md, report_R-2025-040.md"
   },
-  "9": {
+  "10": {
     "mode": "global",
     "q": "Какие детали заменяют устаревшие детали в линии Гольфстрим?",
     "a": "Детали, заменяющие устаревшие в линии Гольфстрим, включают: - часть P-1046, заменяется на P-1046B; - детали P-1118B и P-2054C, заменяют устаревшие версии; - часть P-2110, заменяется на P-2110B; - часть P-3062 (насос), заменяется на P-3062B и P-3062C; - части P-3066 и P-3166 (реле протока), также заменяются. Эти детали используются в моделях GS-410, GS-420, GS-510, GS-520, которые входят в линейку Гольфстрим.",
