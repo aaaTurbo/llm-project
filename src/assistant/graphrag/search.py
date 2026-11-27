@@ -2,6 +2,7 @@
 
 import json
 from itertools import combinations
+from pathlib import Path
 
 import networkx as nx
 
@@ -11,13 +12,38 @@ from assistant.infra.schemas import Answer, KnowledgeBase, MAP_SCHEMA
 
 REFUSED_TEXT = "В базе знаний не найдено."
 
+PROMPTS_DIR = Path(__file__).with_name("prompts")
+
+
+def _load_prompt(filename: str) -> str:
+    """Загружает промпт из файла."""
+    path = PROMPTS_DIR / filename
+
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(
+            f"Файл промпта не найден: {path}"
+        ) from exc
+
+
+def _is_refusal(text: str) -> bool:
+    """Проверяет, вернула ли модель стандартный отказ."""
+    normalized = text.strip().rstrip(".!").casefold()
+    expected = REFUSED_TEXT.rstrip(".").casefold()
+    return normalized == expected
+
+
 def _refused() -> Answer:
     return Answer(text=REFUSED_TEXT, refused=True)
 
 
 def _document_sources(chunk_sources: list[str]) -> list[str]:
     """Преобразует идентификаторы чанков в идентификаторы документов."""
-    return sorted({source.split("#", 1)[0] for source in chunk_sources})
+    return sorted({
+        source.split("#", 1)[0]
+        for source in chunk_sources
+    })
 
 
 def _collect_local_edges(
@@ -107,8 +133,6 @@ def _collect_local_edges(
 
     return selected_edges
 
-
-
 def local_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
     """Отвечает на вопрос о конкретных сущностях по фактам из графа.
 
@@ -154,18 +178,7 @@ def local_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
     messages = [
         {
             "role": "system",
-            "content": (
-                "Ты ассистент сервисной службы. "
-                "Отвечай на вопрос только на основании "
-                "переданных фактов графа знаний. "
-                "Не придумывай коды, детали, связи и характеристики. "
-                "Если информации недостаточно для ответа, "
-                "напиши: «В базе знаний не найдено». "
-                "Если в фактах есть цепочка REPLACED_BY, "
-                "при ответе о действующей замене называй последнюю "
-                "деталь этой цепочки. "
-                "Отвечай кратко на русском языке."
-            ),
+            "content": _load_prompt("local_search.txt"),
         },
         {
             "role": "user",
@@ -177,19 +190,22 @@ def local_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
         },
     ]
 
-    print("\n=== LOCAL SEARCH: FACTS SENT TO LLM ===")
-    print(facts_text)
-    print("=== END FACTS ===\n")
     response = llm.chat(messages, max_tokens=1024)
     answer_text = response.content.strip()
 
-    if not answer_text:
-        return _refused()
+    if not answer_text or _is_refusal(answer_text):
+        return Answer(
+            text=REFUSED_TEXT,
+            facts=[item.split(". ", 1)[1] for item in facts],
+            sources=_document_sources(list(sources)),
+            refused=True,
+        )
 
     return Answer(
         text=answer_text,
         facts=[item.split(". ", 1)[1] for item in facts],
         sources=_document_sources(list(sources)),
+        refused=False,
     )
 
 
@@ -203,6 +219,9 @@ def global_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
     partial_answers = []
     sources = set()
 
+    map_prompt = _load_prompt("global_map.txt")
+    reduce_prompt = _load_prompt("global_reduce.txt")
+
     for community in kb.communities:
         if not community.summary.strip():
             continue
@@ -210,16 +229,7 @@ def global_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
         messages = [
             {
                 "role": "system",
-                "content": (
-                    "Ты анализируешь сводку сообщества графа знаний. "
-                    "Определи, содержит ли она информацию, полезную "
-                    "для ответа на вопрос. "
-                    "Верни JSON с полями answer и score. "
-                    "score — целое число от 0 до 10. "
-                    "Если сводка не помогает ответить, "
-                    "верни пустой answer и score 0. "
-                    "Используй только информацию из сводки."
-                ),
+                "content": map_prompt,
             },
             {
                 "role": "user",
@@ -247,7 +257,7 @@ def global_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
 
         if (
                 not isinstance(answer, str)
-                or not isinstance(score, int)
+                or type(score) is not int
                 or not 0 <= score <= 10
                 or score == 0
                 or not answer.strip()
@@ -277,14 +287,7 @@ def global_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
     messages = [
         {
             "role": "system",
-            "content": (
-                "Ты ассистент сервисной службы. "
-                "Составь единый ответ на вопрос, используя "
-                "только переданные частичные ответы. "
-                "Не добавляй факты, которых в них нет. "
-                "Если информация противоречива, укажи это. "
-                "Отвечай кратко на русском языке."
-            ),
+            "content": reduce_prompt,
         },
         {
             "role": "user",
@@ -299,10 +302,15 @@ def global_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
     response = llm.chat(messages, max_tokens=1024)
     answer_text = response.content.strip()
 
-    if not answer_text:
-        return _refused()
+    if not answer_text or _is_refusal(answer_text):
+        return Answer(
+            text=REFUSED_TEXT,
+            sources=_document_sources(list(sources)),
+            refused=True,
+        )
 
     return Answer(
         text=answer_text,
         sources=_document_sources(list(sources)),
+        refused=False,
     )

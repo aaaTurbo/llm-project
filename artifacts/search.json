@@ -2,7 +2,7 @@
   "1": {
     "mode": "local",
     "q": "Кто поставляет P-3010?",
-    "a": "P-3010 поставляется КомпрессорМаш.",
+    "a": "КомпрессорМаш",
     "sources": "Источники: bulletin_SB-2025-05.md, bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, manual_BZ-110.md, manual_BZ-120.md, manual_BZ-210.md, manual_BZ-220.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-101.md, procedure_SP-102.md, report_R-2025-007.md, report_R-2025-013.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-031.md, report_R-2025-040.md"
   },
   "2": {
@@ -14,8 +14,8 @@
   "3": {
     "mode": "local",
     "q": "Какой регламент устраняет E-22?",
-    "a": "В базе знаний не найдено",
-    "sources": "Источники: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-007.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-035.md"
+    "a": "SP-112",
+    "sources": "bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-007.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-035.md"
   },
   "4": {
     "mode": "global",
@@ -26,8 +26,8 @@
   "5": {
     "mode": "local",
     "q": "Какая деталь заменяет P-3062?",
-    "a": "P-3062 заменяется на P-3062B, а P-3062B заменяется на P-3062C. Последняя деталь в цепочке замены — P-3062C. Ответ: P-3062C.",
-    "sources": "Источники: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md"
+    "a": "P-3062B",
+    "sources": "bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md"
   },
   "6": {
     "mode": "global",
@@ -40,5 +40,17 @@
     "q": "Что известно об ошибке E-999?",
     "a": "В базе знаний не найдено.",
     "sources": "Источники: нет"
+  },
+  "8": {
+    "mode": "global",
+    "q": "Какая процедура устраняет ошибку E-17?",
+    "a": "Процедура SP-104 устраняет ошибку E-17.",
+    "sources": "Источники: bulletin_SB-2025-01.md, bulletin_SB-2025-02.md, bulletin_SB-2025-03.md, bulletin_SB-2025-04.md, bulletin_SB-2025-07.md, bulletin_SB-2025-08.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, manual_BZ-110.md, manual_BZ-120.md, manual_BZ-210.md, manual_BZ-220.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-104.md, procedure_SP-105.md, procedure_SP-107.md, procedure_SP-108.md, procedure_SP-110.md, procedure_SP-111.md, report_R-2025-001.md, report_R-2025-002.md, report_R-2025-003.md, report_R-2025-004.md, report_R-2025-005.md, report_R-2025-006.md, report_R-2025-008.md, report_R-2025-009.md, report_R-2025-010.md, report_R-2025-011.md, report_R-2025-012.md, report_R-2025-014.md, report_R-2025-016.md, report_R-2025-017.md, report_R-2025-020.md, report_R-2025-021.md, report_R-2025-022.md, report_R-2025-023.md, report_R-2025-024.md, report_R-2025-026.md, report_R-2025-027.md, report_R-2025-028.md, report_R-2025-030.md, report_R-2025-031.md, report_R-2025-032.md, report_R-2025-033.md, report_R-2025-034.md, report_R-2025-036.md, report_R-2025-037.md, report_R-2025-038.md, report_R-2025-039.md, report_R-2025-040.md"
+  },
+  "9": {
+    "mode": "global",
+    "q": "Какие детали заменяют устаревшие детали в линии Гольфстрим?",
+    "a": "Детали, заменяющие устаревшие в линии Гольфстрим, включают: - часть P-1046, заменяется на P-1046B; - детали P-1118B и P-2054C, заменяют устаревшие версии; - часть P-2110, заменяется на P-2110B; - часть P-3062 (насос), заменяется на P-3062B и P-3062C; - части P-3066 и P-3166 (реле протока), также заменяются. Эти детали используются в моделях GS-410, GS-420, GS-510, GS-520, которые входят в линейку Гольфстрим.",
+    "sources": "Источники: bulletin_SB-2025-01.md, bulletin_SB-2025-02.md, bulletin_SB-2025-04.md, bulletin_SB-2025-05.md, bulletin_SB-2025-06.md, bulletin_SB-2025-08.md, bulletin_SB-2025-09.md, bulletin_SB-2025-10.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, manual_BZ-110.md, manual_BZ-120.md, manual_BZ-210.md, manual_BZ-220.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-101.md, procedure_SP-102.md, procedure_SP-103.md, procedure_SP-105.md, procedure_SP-111.md, procedure_SP-112.md, procedure_SP-113.md, report_R-2025-001.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-009.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-026.md, report_R-2025-027.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-032.md, report_R-2025-035.md, report_R-2025-040.md"
   }
 }
