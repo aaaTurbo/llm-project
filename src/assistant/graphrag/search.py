@@ -194,6 +194,29 @@ def local_search(question: str, kb: KnowledgeBase, llm: LLMClient) -> Answer:
     answer_text = response.content.strip()
 
     if not answer_text or _is_refusal(answer_text):
+        retry_messages = [
+            *messages,
+            {
+                "role": "assistant",
+                "content": answer_text or REFUSED_TEXT,
+            },
+            {
+                "role": "user",
+                "content": (
+                    "Ты получил отказ, но в графе есть факты. "
+                    "Повторно проверь их и ответь на исходный вопрос, "
+                    "если они позволяют это сделать. "
+                    "Не отказывайся только потому, что ответ не сформулирован "
+                    "в одном факте: можно объединить несколько связанных фактов. "
+                    "Если фактов действительно недостаточно, верни стандартный отказ."
+                ),
+            },
+        ]
+
+        response = llm.chat(retry_messages, max_tokens=1024)
+        answer_text = response.content.strip()
+
+    if not answer_text or _is_refusal(answer_text):
         return Answer(
             text=REFUSED_TEXT,
             facts=[item.split(". ", 1)[1] for item in facts],
