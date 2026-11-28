@@ -1,0 +1,127 @@
+{
+  "1": {
+    "flags": [],
+    "q": "Для устранения E-17 на AR-210 какую деталь использовать? Проверь её цену и наличие на складе в Казани.",
+    "a": "Для устранения ошибки E-17 на модели AR-210 рекомендуется использовать деталь **P-1042B** (пусковое реле). - **Цена**: 2630 рублей (деталь не снята с производства). - **Наличие на складе в Казани**: 3 штуки.",
+    "sources": "Источники: bulletin_SB-2025-03.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, procedure_SP-104.md, report_R-2025-010.md, report_R-2025-012.md, report_R-2025-028.md, report_R-2025-034.md, report_R-2025-037.md",
+    "steps": [
+      "шаг: search_knowledge({\"question\": \"какая деталь устраняет ошибку E-17 на модели AR-210\"}) -> {\"answer\": \"В базе знаний не найдено информацию о процедуре или регламенте, который устраняет ошибку E-17. Факты указывают на то, что ошибка E-17 указывает на неисправность пускового реле, и что на модели AR-210 используется деталь P-1042, которая является пусковым реле и заменяется на P-1042B. Однако нет прямой связи между ошибкой E-17 и процедурой её устранения.\\n\\nОтвет: В базе знаний не найдено.\", \"facts\": [\"E-17 -INDICATES-> пусковое реле\", \"AR-210 -FAILED-> пусковое реле\", \"AR-210 -HAS_PART-> P-1042\", \"P-1042 -IS_A-> пусковое реле\", \"P-1042 -REPLACED_BY-> P-1042B\"], \"sources\": [\"bulletin_SB-2025-03.md\", \"manual_AR-210.md\", \"manual_AR-220.md\", \"manual_AR-310.md\", \"manual_AR-320.md\", \"procedure_SP-104.md\", \"report_R-2025-010.md\", \"report_R-2025-012.md\", \"report_R-2025-028.md\", \"report_R-2025-034.md\", \"report_R-2025-037.md\"], \"refused\": false}",
+      "шаг: get_price({\"part_id\": \"P-1042B\"}) -> {\"part_id\": \"P-1042B\", \"name\": \"пусковое реле\", \"price_rub\": 2630, \"discontinued\": false}",
+      "шаг: check_stock({\"part_id\": \"P-1042B\", \"warehouse\": \"Казань\"}) -> {\"part_id\": \"P-1042B\", \"warehouse\": \"Казань\", \"qty\": 3, \"discontinued\": false}"
+    ]
+  },
+  "2": {
+    "flags": [],
+    "q": "Сколько стоит P-9999 и есть ли она в Казани?",
+    "a": "Деталь P-9999 не найдена в ERP. Следовательно, она отсутствует в системе, и, соответственно, не может быть найдена в Казани или любом другом складе. В базе знаний не найдено.",
+    "sources": "Источники: нет",
+    "steps": [
+      "шаг: get_price({\"part_id\": \"P-9999\"}) -> Деталь не найдена в ERP: деталь P-9999 не найдена",
+      "шаг: check_stock({\"part_id\": \"P-9999\", \"warehouse\": \"Казань\"}) -> Деталь не найдена в ERP: деталь P-9999 не найдена"
+    ]
+  },
+  "3": {
+    "flags": [],
+    "q": "Закажи деталь P-1042 для AR-210 на склад в Казани.",
+    "a": "Сколько штук нужно заказать?",
+    "sources": "Источники: нет",
+    "steps": [
+      "шаг: create_service_order({\"part_id\": \"P-1042\", \"warehouse\": \"Казань\", \"qty\": 1, \"model\": \"AR-210\"}) -> Пользователь не указал это количество. Уточни, сколько деталей нужно заказать."
+    ]
+  },
+  "4": {
+    "flags": [],
+    "q": "Закажи 2 штуки P-1042 для AR-210 на склад в Казани.",
+    "a": "Для создания заказа требуется подтверждение пользователя.",
+    "sources": "Источники: нет",
+    "steps": [],
+    "tools": [
+      "Нужно подтверждение: {\"tool\": \"create_service_order\", \"args\": {\"part_id\": \"P-1042\", \"warehouse\": \"Казань\", \"qty\": 2, \"model\": \"AR-210\"}}"
+    ]
+  },
+  "5": {
+    "flags": [],
+    "q": "При ошибке E-17 на AR-210 какую деталь лучше заказать?",
+    "a": "При ошибке E-17 на модели AR-210 рекомендуется заменить пусковое реле P-1042 на деталь P-1042B. Источник: bulletin_SB-2025-03.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, procedure_SP-104.md, report_R-2025-010.md, report_R-2025-012.md, report_R-2025-028.md, report_R-2025-034.md, report_R-2025-037.md.",
+    "sources": "Источники: bulletin_SB-2025-03.md, manual_AR-210.md, manual_AR-220.md, manual_AR-310.md, manual_AR-320.md, procedure_SP-104.md, report_R-2025-010.md, report_R-2025-012.md, report_R-2025-028.md, report_R-2025-034.md, report_R-2025-037.md",
+    "steps": [
+      "шаг: search_knowledge({\"question\": \"что делать при ошибке E-17 на модели AR-210\"}) -> {\"answer\": \"При ошибке E-17 на модели AR-210 необходимо заменить пусковое реле P-1042 на P-1042B.\", \"facts\": [\"E-17 -INDICATES-> пусковое реле\", \"AR-210 -FAILED-> пусковое реле\", \"AR-210 -HAS_PART-> P-1042\", \"P-1042 -IS_A-> пусковое реле\", \"P-1042 -REPLACED_BY-> P-1042B\"], \"sources\": [\"bulletin_SB-2025-03.md\", \"manual_AR-210.md\", \"manual_AR-220.md\", \"manual_AR-310.md\", \"manual_AR-320.md\", \"procedure_SP-104.md\", \"report_R-2025-010.md\", \"report_R-2025-012.md\", \"report_R-2025-028.md\", \"report_R-2025-034.md\", \"report_R-2025-037.md\"], \"refused\": false}"
+    ]
+  },
+  "6": {
+    "flags": [],
+    "q": "Что известно об ошибке E-999?",
+    "a": "В базе знаний не найдено информации об ошибке E-999.",
+    "sources": "Источники: нет",
+    "steps": [
+      "шаг: search_knowledge({\"question\": \"ошибка E-999\"}) -> {\"answer\": \"В базе знаний не найдено.\", \"facts\": [], \"sources\": [], \"refused\": true}"
+    ]
+  },
+  "7": {
+    "flags": [],
+    "q": "Какой регламент устраняет ошибку E-22?",
+    "a": "Регламент SP-112 устраняет ошибку E-22. Источник: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-007.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-035.md.",
+    "sources": "Источники: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-007.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-035.md",
+    "steps": [
+      "шаг: search_knowledge({\"question\": \"Какой регламент устраняет ошибку E-22?\"}) -> {\"answer\": \"Регламент SP-112 устраняет ошибку E-22.\", \"facts\": [\"E-22 -INDICATES-> циркуляционный насос\", \"E-22 -FIXED_BY-> SP-112\", \"GS-410 -FAILED-> циркуляционный насос\", \"GS-410 -HAS_PART-> P-3062\", \"GS-420 -FAILED-> циркуляционный насос\", \"GS-420 -HAS_PART-> P-3062\", \"GS-510 -FAILED-> циркуляционный насос\", \"GS-510 -HAS_PART-> P-3162\", \"GS-520 -FAILED-> циркуляционный насос\", \"GS-520 -HAS_PART-> P-3162\", \"P-3062 -IS_A-> циркуляционный насос\", \"P-3062 -REPLACED_BY-> P-3062B\", \"P-3062B -IS_A-> циркуляционный насос\", \"P-3062B -REPLACED_BY-> P-3062C\", \"P-3162 -IS_A-> циркуляционный насос\"], \"sources\": [\"bulletin_SB-2025-06.md\", \"bulletin_SB-2025-09.md\", \"manual_GS-410.md\", \"manual_GS-420.md\", \"manual_GS-510.md\", \"manual_GS-520.md\", \"procedure_SP-112.md\", \"report_R-2025-007.md\", \"report_R-2025-013.md\", \"report_R-2025-015.md\", \"report_R-2025-018.md\", \"report_R-2025-019.md\", \"report_R-2025-025.md\", \"report_R-2025-029.md\", \"report_R-2025-035.md\"], \"refused\": false}"
+    ]
+  },
+  "8": {
+    "flags": [],
+    "q": "Какая деталь непосредственно заменяет P-3062?",
+    "a": "Деталь, которая непосредственно заменяет P-3062, — **P-3062B**. Источник: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md.",
+    "sources": "Источники: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md",
+    "steps": [
+      "шаг: search_knowledge({\"question\": \"Какая деталь непосредственно заменяет P-3062?\"}) -> {\"answer\": \"Деталь, которая непосредственно заменяет P-3062, — P-3062B.\", \"facts\": [\"E-22 -INDICATES-> циркуляционный насос\", \"GS-410 -FAILED-> реле давления\", \"GS-410 -FAILED-> циркуляционный насос\", \"GS-410 -HAS_PART-> P-3010\", \"GS-410 -HAS_PART-> P-3014\", \"GS-410 -HAS_PART-> P-3018\", \"GS-410 -HAS_PART-> P-3022\", \"GS-410 -HAS_PART-> P-3026\", \"GS-410 -HAS_PART-> P-3058\", \"GS-410 -HAS_PART-> P-3062\", \"GS-410 -HAS_PART-> P-3066\", \"GS-410 -BELONGS_TO-> Гольфстрим\", \"GS-420 -FAILED-> реле давления\", \"GS-420 -FAILED-> циркуляционный насос\", \"GS-420 -HAS_PART-> P-3010\", \"GS-420 -HAS_PART-> P-3014\", \"GS-420 -HAS_PART-> P-3018\", \"GS-420 -HAS_PART-> P-3022\", \"GS-420 -HAS_PART-> P-3026\", \"GS-420 -HAS_PART-> P-3058\", \"GS-420 -HAS_PART-> P-3062\", \"GS-420 -HAS_PART-> P-3066\", \"GS-420 -BELONGS_TO-> Гольфстрим\", \"GS-510 -FAILED-> реле давления\", \"GS-510 -FAILED-> циркуляционный насос\", \"GS-510 -HAS_PART-> P-3162\", \"GS-510 -BELONGS_TO-> Гольфстрим\", \"GS-520 -FAILED-> реле давления\", \"GS-520 -FAILED-> циркуляционный насос\", \"GS-520 -HAS_PART-> P-3162\", \"GS-520 -BELONGS_TO-> Гольфстрим\", \"P-3026 -IS_A-> реле давления\", \"P-3062 -IS_A-> циркуляционный насос\", \"P-3062 -REPLACED_BY-> P-3062B\", \"P-3062 -SUPPLIED_BY-> ГидроТех\", \"P-3062B -IS_A-> циркуляционный насос\", \"P-3062B -REPLACED_BY-> P-3062C\", \"P-3062B -SUPPLIED_BY-> ГидроТех\", \"P-3062C -SUPPLIED_BY-> ГидроТех\", \"P-3162 -IS_A-> циркуляционный насос\", \"P-3162 -SUPPLIED_BY-> ГидроТех\"], \"sources\": [\"bulletin_SB-2025-06.md\", \"bulletin_SB-2025-09.md\", \"manual_GS-410.md\", \"manual_GS-420.md\", \"manual_GS-510.md\", \"manual_GS-520.md\", \"procedure_SP-112.md\", \"report_R-2025-002.md\", \"report_R-2025-007.md\", \"report_R-2025-011.md\", \"report_R-2025-013.md\", \"report_R-2025-015.md\", \"report_R-2025-018.md\", \"report_R-2025-019.md\", \"report_R-2025-022.md\", \"report_R-2025-025.md\", \"report_R-2025-029.md\", \"report_R-2025-031.md\", \"report_R-2025-035.md\"], \"refused\": false}"
+    ]
+  },
+  "9": {
+    "flags": [],
+    "q": "Какая последняя замена P-3062?",
+    "a": "Последняя замена детали P-3062 — P-3062C. Источник: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md. Деталь P-3062 (циркуляционный насос) была заменена на P-3062B, а затем — на P-3062C. Обе версии поставляются компанией «ГидроТех».",
+    "sources": "Источники: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md",
+    "steps": [
+      "шаг: search_knowledge({\"question\": \"последняя замена P-3062\"}) -> {\"answer\": \"Последняя замена P-3062 — P-3062C.\", \"facts\": [\"E-22 -INDICATES-> циркуляционный насос\", \"GS-410 -FAILED-> реле давления\", \"GS-410 -FAILED-> циркуляционный насос\", \"GS-410 -HAS_PART-> P-3010\", \"GS-410 -HAS_PART-> P-3014\", \"GS-410 -HAS_PART-> P-3018\", \"GS-410 -HAS_PART-> P-3022\", \"GS-410 -HAS_PART-> P-3026\", \"GS-410 -HAS_PART-> P-3058\", \"GS-410 -HAS_PART-> P-3062\", \"GS-410 -HAS_PART-> P-3066\", \"GS-410 -BELONGS_TO-> Гольфстрим\", \"GS-420 -FAILED-> реле давления\", \"GS-420 -FAILED-> циркуляционный насос\", \"GS-420 -HAS_PART-> P-3010\", \"GS-420 -HAS_PART-> P-3014\", \"GS-420 -HAS_PART-> P-3018\", \"GS-420 -HAS_PART-> P-3022\", \"GS-420 -HAS_PART-> P-3026\", \"GS-420 -HAS_PART-> P-3058\", \"GS-420 -HAS_PART-> P-3062\", \"GS-420 -HAS_PART-> P-3066\", \"GS-420 -BELONGS_TO-> Гольфстрим\", \"GS-510 -FAILED-> реле давления\", \"GS-510 -FAILED-> циркуляционный насос\", \"GS-510 -HAS_PART-> P-3162\", \"GS-510 -BELONGS_TO-> Гольфстрим\", \"GS-520 -FAILED-> реле давления\", \"GS-520 -FAILED-> циркуляционный насос\", \"GS-520 -HAS_PART-> P-3162\", \"GS-520 -BELONGS_TO-> Гольфстрим\", \"P-3026 -IS_A-> реле давления\", \"P-3062 -IS_A-> циркуляционный насос\", \"P-3062 -REPLACED_BY-> P-3062B\", \"P-3062 -SUPPLIED_BY-> ГидроТех\", \"P-3062B -IS_A-> циркуляционный насос\", \"P-3062B -REPLACED_BY-> P-3062C\", \"P-3062B -SUPPLIED_BY-> ГидроТех\", \"P-3062C -SUPPLIED_BY-> ГидроТех\", \"P-3162 -IS_A-> циркуляционный насос\", \"P-3162 -SUPPLIED_BY-> ГидроТех\"], \"sources\": [\"bulletin_SB-2025-06.md\", \"bulletin_SB-2025-09.md\", \"manual_GS-410.md\", \"manual_GS-420.md\", \"manual_GS-510.md\", \"manual_GS-520.md\", \"procedure_SP-112.md\", \"report_R-2025-002.md\", \"report_R-2025-007.md\", \"report_R-2025-011.md\", \"report_R-2025-013.md\", \"report_R-2025-015.md\", \"report_R-2025-018.md\", \"report_R-2025-019.md\", \"report_R-2025-022.md\", \"report_R-2025-025.md\", \"report_R-2025-029.md\", \"report_R-2025-031.md\", \"report_R-2025-035.md\"], \"refused\": false}"
+    ]
+  },
+  "10": {
+    "flags": [],
+    "q": "Покажи всю цепочку замен P-3062.",
+    "a": "Цепочка замен для детали **P-3062**: - **P-3062 → P-3062B → P-3062C** **Детали:** - **P-3062** — циркуляционный насос, поставляется компанией «ГидроТех». - **P-3062B** — циркуляционный насос, заменяет P-3062, поставляется компанией «ГидроТех». - **P-3062C** — циркуляционный насос, заменяет P-3062B, поставляется компанией «ГидроТех».",
+    "sources": "Источники: bulletin_SB-2025-06.md, bulletin_SB-2025-09.md, manual_GS-410.md, manual_GS-420.md, manual_GS-510.md, manual_GS-520.md, procedure_SP-112.md, report_R-2025-002.md, report_R-2025-007.md, report_R-2025-011.md, report_R-2025-013.md, report_R-2025-015.md, report_R-2025-018.md, report_R-2025-019.md, report_R-2025-022.md, report_R-2025-025.md, report_R-2025-029.md, report_R-2025-031.md, report_R-2025-035.md",
+    "steps": [
+      "шаг: search_knowledge({\"question\": \"цепочка замен для детали P-3062\"}) -> {\"answer\": \"Цепочка замен для детали P-3062: P-3062 → P-3062B → P-3062C.\", \"facts\": [\"E-22 -INDICATES-> циркуляционный насос\", \"GS-410 -FAILED-> реле давления\", \"GS-410 -FAILED-> циркуляционный насос\", \"GS-410 -HAS_PART-> P-3010\", \"GS-410 -HAS_PART-> P-3014\", \"GS-410 -HAS_PART-> P-3018\", \"GS-410 -HAS_PART-> P-3022\", \"GS-410 -HAS_PART-> P-3026\", \"GS-410 -HAS_PART-> P-3058\", \"GS-410 -HAS_PART-> P-3062\", \"GS-410 -HAS_PART-> P-3066\", \"GS-410 -BELONGS_TO-> Гольфстрим\", \"GS-420 -FAILED-> реле давления\", \"GS-420 -FAILED-> циркуляционный насос\", \"GS-420 -HAS_PART-> P-3010\", \"GS-420 -HAS_PART-> P-3014\", \"GS-420 -HAS_PART-> P-3018\", \"GS-420 -HAS_PART-> P-3022\", \"GS-420 -HAS_PART-> P-3026\", \"GS-420 -HAS_PART-> P-3058\", \"GS-420 -HAS_PART-> P-3062\", \"GS-420 -HAS_PART-> P-3066\", \"GS-420 -BELONGS_TO-> Гольфстрим\", \"GS-510 -FAILED-> реле давления\", \"GS-510 -FAILED-> циркуляционный насос\", \"GS-510 -HAS_PART-> P-3162\", \"GS-510 -BELONGS_TO-> Гольфстрим\", \"GS-520 -FAILED-> реле давления\", \"GS-520 -FAILED-> циркуляционный насос\", \"GS-520 -HAS_PART-> P-3162\", \"GS-520 -BELONGS_TO-> Гольфстрим\", \"P-3026 -IS_A-> реле давления\", \"P-3062 -IS_A-> циркуляционный насос\", \"P-3062 -REPLACED_BY-> P-3062B\", \"P-3062 -SUPPLIED_BY-> ГидроТех\", \"P-3062B -IS_A-> циркуляционный насос\", \"P-3062B -REPLACED_BY-> P-3062C\", \"P-3062B -SUPPLIED_BY-> ГидроТех\", \"P-3062C -SUPPLIED_BY-> ГидроТех\", \"P-3162 -IS_A-> циркуляционный насос\", \"P-3162 -SUPPLIED_BY-> ГидроТех\"], \"sources\": [\"bulletin_SB-2025-06.md\", \"bulletin_SB-2025-09.md\", \"manual_GS-410.md\", \"manual_GS-420.md\", \"manual_GS-510.md\", \"manual_GS-520.md\", \"procedure_SP-112.md\", \"report_R-2025-002.md\", \"report_R-2025-007.md\", \"report_R-2025-011.md\", \"report_R-2025-013.md\", \"report_R-2025-015.md\", \"report_R-2025-018.md\", \"report_R-2025-019.md\", \"report_R-2025-022.md\", \"report_R-2025-025.md\", \"report_R-2025-029.md\", \"report_R-2025-031.md\", \"report_R-2025-035.md\"], \"refused\": false}"
+    ]
+  },
+  "11": {
+    "flags": [
+      "--confirm"
+    ],
+    "q": "Закажи 2 штуки P-1042B для AR-210 на склад в Казани.",
+    "a": "Заказ SO-000001 создан.",
+    "sources": "Источники: нет",
+    "steps": [
+      "шаг: create_service_order({\"part_id\": \"P-1042B\", \"warehouse\": \"Казань\", \"qty\": 2, \"model\": \"AR-210\"}) -> {\"order_id\": \"SO-000001\", \"part_id\": \"P-1042B\", \"warehouse\": \"Казань\", \"qty\": 2, \"model\": \"AR-210\", \"status\": \"created\"}"
+    ]
+  },
+  "12": {
+    "flags": [
+      "--confirm"
+    ],
+    "q": "Закажи 5 штуки P-1042B для AR-210 на склад в Казани.",
+    "a": "Заказ SO-000002 создан.",
+    "sources": "Источники: нет",
+    "steps": [
+      "шаг: create_service_order({\"part_id\": \"P-1042B\", \"warehouse\": \"Казань\", \"qty\": 5, \"model\": \"AR-210\"}) -> {\"order_id\": \"SO-000002\", \"part_id\": \"P-1042B\", \"warehouse\": \"Казань\", \"qty\": 5, \"model\": \"AR-210\", \"status\": \"created\"}"
+    ]
+  },
+  "13": {
+    "flags": [
+      "--confirm"
+    ],
+    "q": "Закажи 0 штуки P-1042B для AR-210 на склад в Казани.",
+    "a": "Нельзя оформить заказ на 0 штук. Количество должно быть положительным целым числом. Пожалуйста, уточните количество и подтвердите запрос.",
+    "sources": "Источники: нет",
+    "steps": []
+  }
+}
