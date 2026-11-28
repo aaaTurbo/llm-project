@@ -3,6 +3,7 @@
 import json
 import re
 from collections.abc import Callable
+from pathlib import Path
 
 from assistant.agent.tools import TOOL_SCHEMAS
 from assistant.infra.erp_client import ErpUnavailable
@@ -12,12 +13,35 @@ from assistant.infra.schemas import AgentResult, ToolStep
 REFUSED_TEXT = "В базе знаний не найдено."
 UNAVAILABLE_TEXT = "Данные ERP получить не удалось."
 
+PROMPTS_DIR = Path(__file__).parent / "prompts"
+SYSTEM_PROMPT = (PROMPTS_DIR / "system.txt").read_text(encoding="utf-8")
+CORRECTION_PROMPT = (PROMPTS_DIR / "correction.txt").read_text(encoding="utf-8")
+
 CODE_PATTERN = re.compile(
     r"\b(?:P-\d{4}[A-Z]?|(?:AR|BZ|GS)-\d{3}|E-\d{2,3}|SP-\d{3})\b"
 )
-PRICE_PATTERN = re.compile(r"(\d[\d ]*)\s*(?:руб(?:\.|лей|ля)?|₽)", re.IGNORECASE)
-STOCK_PATTERN = re.compile(r"(\d+)\s*(?:шт(?:\.|ук[аи]?)?|ед(?:\.|иниц[аы]?)?)", re.IGNORECASE)
-
+PRICE_PATTERN = re.compile(
+    r"(\d[\d ]*)\s*(?:руб(?:\.|лей|ля)?|₽)",
+    re.IGNORECASE,
+)
+STOCK_PATTERN = re.compile(
+    r"(\d+)\s*(?:шт(?:\.|ук[аи]?)?|ед(?:\.|иниц[аы]?)?)",
+    re.IGNORECASE,
+)
+ORDER_PATTERN = re.compile(
+    r"\b(?:"
+    r"закажи(?:те)?|"
+    r"оформи(?:те)?\s+заказ|"
+    r"оформить\s+заказ|"
+    r"создай(?:те)?\s+заказ|"
+    r"создать\s+заказ|"
+    r"размести(?:те)?\s+заказ|"
+    r"разместить\s+заказ|"
+    r"хочу\s+заказать|"
+    r"нужно\s+заказать"
+    r")\b",
+    re.IGNORECASE,
+)
 
 def _codes(text: str) -> set[str]:
     return {match.group(0).upper() for match in CODE_PATTERN.finditer(text)}
@@ -38,7 +62,10 @@ def _number_from_match(value: str) -> int:
 
 
 def _has_quantity(question: str, qty: int) -> bool:
-    return any(int(value) == qty for value in re.findall(r"(?<!\w)\d+(?!\w)", question))
+    return any(
+        int(value) == qty
+        for value in re.findall(r"(?<!\w)\d+(?!\w)", question)
+    )
 
 
 def _valid_final_answer(
@@ -47,7 +74,6 @@ def _valid_final_answer(
     observations: list[dict],
 ) -> bool:
     """Проверяет коды, цены и остатки в ответе по вопросу и результатам инструментов."""
-
     known_text = question + " " + _collect_text(observations)
     known_codes = _codes(known_text)
 
@@ -73,7 +99,8 @@ def _valid_final_answer(
         and not isinstance(item.get("qty"), bool)
     }
     question_numbers = {
-        int(value) for value in re.findall(r"(?<!\w)\d+(?!\w)", question)
+        int(value)
+        for value in re.findall(r"(?<!\w)\d+(?!\w)", question)
     }
     allowed_stock = known_stock | question_numbers
 
@@ -90,12 +117,15 @@ def _unique_sources(observations: list[dict]) -> list[str]:
         if isinstance(item, dict):
             values = item.get("sources", [])
             if isinstance(values, list):
-                sources.update(source for source in values if isinstance(source, str))
+                sources.update(
+                    source for source in values if isinstance(source, str)
+                )
     return sorted(sources)
 
 
 def _tool_error(call: ToolCall, message: str) -> dict:
     return {"error": message}
+
 
 def run_agent(
     question: str,
@@ -119,18 +149,7 @@ def run_agent(
         raise ValueError("max_steps должен быть не меньше 1.")
 
     messages = [
-        {
-            "role": "system",
-            "content": (
-                "Ты — ассистент сервисной службы. Отвечай на русском языке. "
-                "Используй инструменты для получения фактов, цен и остатков. "
-                "Не выдумывай номера деталей, цены, остатки и результаты заказов. "
-                "Номер детали для ERP должен быть найден в вопросе или в результатах "
-                "предыдущих инструментов. Для заказа обязательно используй количество, "
-                "названное пользователем. Если знаний недостаточно, честно сообщи об этом. "
-                "Если инструмент вернул ошибку, учти её и не выдумывай успешный результат."
-            ),
-        },
+        {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": question},
     ]
 
@@ -147,28 +166,32 @@ def run_agent(
 
         if not response.tool_calls:
             answer = response.content.strip() or "Не удалось сформировать ответ."
-            if knowledge_refused and answer.rstrip(".!").casefold() == REFUSED_TEXT.rstrip(".").casefold():
+
+            if (
+                knowledge_refused
+                and answer.rstrip(".!").casefold()
+                == REFUSED_TEXT.rstrip(".").casefold()
+            ):
                 return AgentResult(
                     answer=REFUSED_TEXT,
                     steps=steps,
                     sources=_unique_sources(observations),
                     refused=True,
                 )
+
             if not _valid_final_answer(answer, question, observations):
                 messages.append(
-                    {
-                        "role": "system",
-                        "content": (
-                            "В предыдущем ответе есть неподтверждённые коды, цены или остатки. "
-                            "Исправь ответ, используя только вопрос и результаты инструментов. "
-                            "Если подтвердить данные невозможно, откажись от ответа."
-                        ),
-                    }
+                    {"role": "system", "content": CORRECTION_PROMPT}
                 )
                 correction = llm.chat(messages, max_tokens=1024)
                 corrected = correction.content.strip()
 
-                if not corrected or not _valid_final_answer(corrected, question, observations):
+                if (
+                    not corrected
+                    or not _valid_final_answer(
+                        corrected, question, observations
+                    )
+                ):
                     return AgentResult(
                         answer=REFUSED_TEXT,
                         steps=steps,
@@ -187,14 +210,21 @@ def run_agent(
         for call in response.tool_calls:
             if tool_calls_count >= max_steps:
                 break
+
             tool_calls_count += 1
-            args = call.arguments if isinstance(call.arguments, dict) else {"_raw": call.arguments}
+            args = (
+                call.arguments
+                if isinstance(call.arguments, dict)
+                else {"_raw": call.arguments}
+            )
             tool_name = call.name
 
             if "_raw" in args:
-                message = "Не удалось разобрать аргументы инструмента. Передай корректные аргументы в формате JSON."
-                step = ToolStep(tool=tool_name, args=args, error=message)
-                steps.append(step)
+                message = (
+                    "Не удалось разобрать аргументы инструмента. "
+                    "Передай корректные аргументы в формате JSON."
+                )
+                steps.append(ToolStep(tool=tool_name, args=args, error=message))
                 messages.append(tool_message(call, _tool_error(call, message)))
                 continue
 
@@ -204,11 +234,22 @@ def run_agent(
                 messages.append(tool_message(call, _tool_error(call, message)))
                 continue
 
+            if tool_name == "create_service_order" and not ORDER_PATTERN.search(question):
+                message = (
+                    "Пользователь не просил оформлять заказ. "
+                    "Не вызывай create_service_order. Продолжи отвечать "
+                    "на исходный вопрос."
+                )
+                steps.append(ToolStep(tool=tool_name, args=args, error=message))
+                messages.append(tool_message(call, _tool_error(call, message)))
+                continue
+
             part_id = args.get("part_id")
             if part_id is not None and part_id not in known_codes:
                 message = (
-                    f"Номер детали {part_id} не встречался в вопросе или результатах инструментов. "
-                    "Сначала вызови search_knowledge, чтобы найти подтверждённый номер детали."
+                    f"Номер детали {part_id} не встречался в вопросе или "
+                    "результатах инструментов. Сначала вызови search_knowledge, "
+                    "чтобы найти подтверждённый номер детали."
                 )
                 steps.append(ToolStep(tool=tool_name, args=args, error=message))
                 messages.append(tool_message(call, _tool_error(call, message)))
@@ -216,9 +257,18 @@ def run_agent(
 
             if tool_name == "create_service_order":
                 qty = args.get("qty")
-                if isinstance(qty, bool) or not isinstance(qty, int) or not _has_quantity(question, qty):
-                    message = "Пользователь не указал это количество. Уточни, сколько деталей нужно заказать."
-                    steps.append(ToolStep(tool=tool_name, args=args, error=message))
+                if (
+                    isinstance(qty, bool)
+                    or not isinstance(qty, int)
+                    or not _has_quantity(question, qty)
+                ):
+                    message = (
+                        "Пользователь не указал это количество. "
+                        "Уточни, сколько деталей нужно заказать."
+                    )
+                    steps.append(
+                        ToolStep(tool=tool_name, args=args, error=message)
+                    )
                     return AgentResult(
                         answer="Сколько штук нужно заказать?",
                         steps=steps,
@@ -228,7 +278,10 @@ def run_agent(
 
                 if not confirm:
                     return AgentResult(
-                        answer="Для создания заказа требуется подтверждение пользователя.",
+                        answer=(
+                            "Для создания заказа требуется подтверждение "
+                            "пользователя."
+                        ),
                         steps=steps,
                         sources=_unique_sources(observations),
                         refused=False,
@@ -262,32 +315,53 @@ def run_agent(
                         break
 
                 if result is None:
-                    result = {"error": error or "Инструмент не вернул результат."}
+                    result = {
+                        "error": error or "Инструмент не вернул результат."
+                    }
 
                 executed[cache_key] = result
 
             if not isinstance(result, dict):
-                result = {"error": "Инструмент вернул результат неверного формата."}
+                result = {
+                    "error": "Инструмент вернул результат неверного формата."
+                }
 
             observations.append(result)
             known_codes.update(_codes(_collect_text(result)))
 
             result_error = result.get("error")
             if result_error:
-                step = ToolStep(tool=tool_name, args=args, result=result, error=str(result_error))
+                step = ToolStep(
+                    tool=tool_name,
+                    args=args,
+                    result=result,
+                    error=str(result_error),
+                )
             else:
-                step = ToolStep(tool=tool_name, args=args, result=result)
+                step = ToolStep(
+                    tool=tool_name,
+                    args=args,
+                    result=result,
+                )
 
             steps.append(step)
 
-            if tool_name in ("search_knowledge", "summarize_topic") and result.get("refused") is True:
+            if (
+                tool_name in ("search_knowledge", "summarize_topic")
+                and result.get("refused") is True
+                and not result.get("facts")
+            ):
                 knowledge_refused = True
 
             messages.append(tool_message(call, result))
 
             if tool_name == "create_service_order" and not result_error:
                 order_id = result.get("order_id")
-                answer = f"Заказ {order_id} создан." if order_id else "Заказ создан."
+                answer = (
+                    f"Заказ {order_id} создан."
+                    if order_id
+                    else "Заказ создан."
+                )
                 return AgentResult(
                     answer=answer,
                     steps=steps,
@@ -296,7 +370,10 @@ def run_agent(
                 )
 
     return AgentResult(
-        answer="Достигнут лимит вызовов инструментов. Работа остановлена; использованы только полученные данные.",
+        answer=(
+            "Достигнут лимит вызовов инструментов. Работа остановлена; "
+            "использованы только полученные данные."
+        ),
         steps=steps,
         sources=_unique_sources(observations),
         refused=False,
